@@ -1,4 +1,7 @@
+import { useSessionStore } from '@/stores/session'
 import { createRouter, createWebHistory } from 'vue-router'
+import AppLayout from '../layouts/AppLayout.vue'
+import AuthLayout from '../layouts/AuthLayout.vue'
 import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
@@ -8,16 +11,38 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView,
+      meta: {
+        layout: AppLayout,
+        requiresAuth: true,
+      },
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue'),
+      path: '/login',
+      name: 'login',
+      meta: {
+        layout: AuthLayout,
+        requiresAuth: false,
+      },
+      component: () => import('@/views/auth/LoginView.vue'),
     },
   ],
+})
+
+router.beforeEach(async (to) => {
+  const sessionStore = useSessionStore()
+
+  // Wait for store initialization
+  if (!sessionStore.isInitialized) {
+    await sessionStore.initPromise
+  }
+
+  if (to.name === 'login' && sessionStore.user) {
+    return { name: 'home' }
+  }
+
+  if (to.meta.requiresAuth && !sessionStore.user) {
+    return { name: 'login', query: { returnTo: to.fullPath } }
+  }
 })
 
 export default router
