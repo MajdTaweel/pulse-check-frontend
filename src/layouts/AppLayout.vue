@@ -28,10 +28,11 @@ const sessionStore = useSessionStore()
         <li>
           <button
             @click="sessionStore.logout"
-            class="btn btn-ghost btn-sm w-full justify-start text-error"
+            class="btn btn-ghost btn-sm w-full justify-start text-error group"
           >
             <LogOutIcon class="w-4 h-4" />
-            <span class="ml-2">Logout</span>
+            <span class="ml-1">Logout</span>
+            <span class="hidden group-hover:inline text-base"> 🥺</span>
           </button>
         </li>
       </ul>
