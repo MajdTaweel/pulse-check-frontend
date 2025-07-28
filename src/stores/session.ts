@@ -1,6 +1,7 @@
 import type { User } from '@/api/auth'
 import { login, logout, me, setToken, clearToken } from '@/api/auth'
 import router from '@/router'
+import type { MandeError } from 'mande'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
@@ -30,9 +31,15 @@ export const useSessionStore = defineStore('session', () => {
       setToken(token)
       try {
         await _me()
-      } catch {
-        // Token is invalid, clear it
-        clearToken()
+      } catch (error) {
+        if (error && typeof error === 'object' && 'response' in error) {
+          const mandeError = error as MandeError
+          if (mandeError.response.status === 401) {
+            clearToken()
+          }
+        } else {
+          throw error
+        }
       }
     }
     isInitialized.value = true
@@ -52,5 +59,3 @@ export const useSessionStore = defineStore('session', () => {
 })
 
 // TODO: Show toast on error
-// TODO: Navigate to home page on login
-// TODO: Navigate to login page on logout
