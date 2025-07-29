@@ -9,7 +9,8 @@ export interface ErrorResponse {
 
 const token = localStorage.getItem('token')
 
-export const api = mande('http://localhost:3000/api/v1', {
+const baseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000'
+export const api = mande(`${baseUrl.replace(/\/$/, '')}/api/v1`, {
   headers: {
     Authorization: token ? `Bearer ${token}` : null,
   },
