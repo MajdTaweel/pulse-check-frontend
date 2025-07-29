@@ -11,6 +11,7 @@ WORKDIR /app
 
 # Set production environment
 ENV NODE_ENV="production"
+ENV VITE_API_BASE_URL="https://pulse-check-backend.fly.dev"
 
 
 # Throw-away build stage to reduce size of final image
