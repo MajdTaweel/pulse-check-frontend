@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import AppLayout from '../layouts/AppLayout.vue'
 import AuthLayout from '../layouts/AuthLayout.vue'
 import HomeView from '../views/HomeView.vue'
+import MonitorDetailsView from '@/views/MonitorDetailsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -24,6 +25,15 @@ const router = createRouter({
         requiresAuth: false,
       },
       component: () => import('@/views/auth/LoginView.vue'),
+    },
+    {
+      path: '/monitors/:id',
+      name: 'monitor-details',
+      component: MonitorDetailsView,
+      meta: {
+        layout: AppLayout,
+        requiresAuth: true,
+      },
     },
   ],
 })

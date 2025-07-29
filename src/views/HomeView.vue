@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { listMonitors, type Monitor } from '@/api/monitors'
 import MonitorStatus from '@/components/MonitorStatus.vue'
-import { EyeIcon, PlusIcon } from 'lucide-vue-next'
+import { ClockIcon, MoreHorizontalIcon, PlusIcon } from 'lucide-vue-next'
 import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const monitors = ref<Monitor[]>([])
 
@@ -29,7 +32,12 @@ onMounted(async () => {
         </div>
       </li>
 
-      <li v-for="monitor in monitors" :key="monitor.id" class="list-row">
+      <li
+        v-for="monitor in monitors"
+        :key="monitor.id"
+        class="list-row cursor-pointer transition-colors hover:bg-neutral-50/5"
+        @click="router.push(`/monitors/${monitor.id}`)"
+      >
         <div class="flex items-center">
           <MonitorStatus :status="monitor.last_status" />
         </div>
@@ -38,11 +46,19 @@ onMounted(async () => {
           <div class="text-xs text-base-content/60">{{ monitor.url }}</div>
         </div>
 
-        <div class="tooltip" data-tip="View">
-          <button class="btn btn-square btn-ghost">
-            <EyeIcon class="size-[1.2em]" />
-          </button>
+        <div
+          class="flex items-center tooltip"
+          :data-tip="`Checked every ${monitor.check_interval} seconds`"
+        >
+          <div class="flex items-center gap-1 text-xs text-base-content/60">
+            <ClockIcon class="size-[1.2em]" />
+            {{ monitor.check_interval }}s
+          </div>
         </div>
+
+        <button class="btn btn-square btn-ghost">
+          <MoreHorizontalIcon class="size-[1.2em]" />
+        </button>
       </li>
 
       <li v-if="monitors.length === 0" class="list-row flex flex-col items-center gap-8">

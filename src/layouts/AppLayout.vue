@@ -39,7 +39,7 @@ const sessionStore = useSessionStore()
     </nav>
   </header>
 
-  <main class="flex-1 flex min-h-screen items-center justify-center">
+  <main class="flex-1 flex min-h-[calc(100vh-3.5rem)] items-center justify-center">
     <slot />
   </main>
 </template>

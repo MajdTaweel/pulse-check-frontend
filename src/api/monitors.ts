@@ -14,3 +14,7 @@ export interface Monitor {
 export const listMonitors = async () => {
   return await api.get<Monitor[]>('/monitored_urls')
 }
+
+export const getMonitor = async (monitorId: number) => {
+  return await api.get<Monitor>(`/monitored_urls/${monitorId}`)
+}

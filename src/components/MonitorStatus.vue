@@ -3,17 +3,6 @@ import { computed } from 'vue'
 
 const props = defineProps<{ status: 'pending' | 'up' | 'down' }>()
 
-const statusText = computed(() => {
-  switch (props.status) {
-    case 'up':
-      return 'Online'
-    case 'down':
-      return 'Offline'
-    default:
-      return 'Pending'
-  }
-})
-
 const statusColor = computed(() => {
   switch (props.status) {
     case 'up':
@@ -24,12 +13,30 @@ const statusColor = computed(() => {
       return 'bg-warning'
   }
 })
+
+const statusAnimation = computed(() => {
+  switch (props.status) {
+    case 'up':
+      return 'animate-ping'
+    case 'down':
+      return 'animate-bounce'
+    default:
+      return 'animate-pulse'
+  }
+})
 </script>
 
 <template>
   <div class="flex items-center gap-2">
-    <div class="tooltip" :data-tip="statusText">
-      <div class="size-5 rounded-full" :class="statusColor" />
+    <div
+      class="relative flex size-2.5 tooltip"
+      :data-tip="status.charAt(0).toUpperCase() + status.slice(1)"
+    >
+      <span
+        class="absolute h-full w-full rounded-full opacity-75"
+        :class="`${statusColor} ${statusAnimation}`"
+      />
+      <span v-if="status === 'up'" class="size-2.5 rounded-full" :class="statusColor" />
     </div>
   </div>
 </template>
