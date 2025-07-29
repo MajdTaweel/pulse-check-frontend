@@ -1,16 +1,21 @@
 <script setup lang="ts">
 import { useSessionStore } from '@/stores/session'
-import { UserIcon, LogOutIcon } from 'lucide-vue-next'
+import { LogOutIcon, UserIcon } from 'lucide-vue-next'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const sessionStore = useSessionStore()
 </script>
 
 <template>
   <header class="flex justify-center px-2">
     <nav class="flex justify-between w-full max-w-5xl items-center">
-      <div class="flex h-14 items-center object-contain">
+      <button
+        class="flex h-14 items-center object-contain cursor-pointer hover:opacity-80 transition-opacity"
+        @click="router.push('/')"
+      >
         <img alt="Pulse Check logo" src="@/assets/logo-full.png" width="100" height="100" />
-      </div>
+      </button>
 
       <button
         class="btn btn-ghost"
