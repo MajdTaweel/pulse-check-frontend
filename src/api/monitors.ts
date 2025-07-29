@@ -7,6 +7,10 @@ export interface Monitor {
   check_interval: number
   last_checked_at: string
   last_status: 'pending' | 'up' | 'down'
+  uptime: {
+    last_24h: number
+    last_7d: number
+  }
   created_at: string
   updated_at: string
 }

@@ -56,9 +56,25 @@ onMounted(async () => {
           </div>
         </div>
 
-        <button class="btn btn-square btn-ghost">
-          <MoreHorizontalIcon class="size-[1.2em]" />
-        </button>
+        <div class="dropdown dropdown-end" @click.stop>
+          <div tabindex="0" role="button" class="btn btn-square btn-ghost">
+            <MoreHorizontalIcon class="size-[1.2em]" />
+          </div>
+          <ul
+            tabindex="0"
+            class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+          >
+            <li>
+              <button class="flex items-center gap-2 group">
+                Work in Progress
+                <span class="text-lg transition-all duration-200 group-hover:hidden">🚧</span>
+                <span class="text-lg transition-all duration-200 hidden group-hover:inline"
+                  >🏗️</span
+                >
+              </button>
+            </li>
+          </ul>
+        </div>
       </li>
 
       <li v-if="monitors.length === 0" class="list-row flex flex-col items-center gap-8">
