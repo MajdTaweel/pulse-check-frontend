@@ -15,7 +15,9 @@ export const useSessionStore = defineStore('session', () => {
 
   const _login = async (email: string, password: string) => {
     user.value = await login(email, password)
-    router.push((router.currentRoute.value.query.returnTo as string) || '/')
+    const returnTo = localStorage.getItem('returnTo') || '/'
+    localStorage.removeItem('returnTo')
+    router.push(returnTo)
   }
 
   const _logout = async () => {

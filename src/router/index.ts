@@ -51,7 +51,8 @@ router.beforeEach(async (to) => {
   }
 
   if (to.meta.requiresAuth && !sessionStore.user) {
-    return { name: 'login', query: { returnTo: to.fullPath } }
+    localStorage.setItem('returnTo', to.fullPath)
+    return { name: 'login' }
   }
 })
 
